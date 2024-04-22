@@ -1,3 +1,7 @@
+# Notes
+- <a href="https://github.com/EGRrqq/axaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxa/tree/main/task_1#notes">Заметка к уникальному id **145868** из первого задания</a>
+- <a href="https://egrrqq.github.io/axaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxa/">Лайв ссылка на второе задание</a>
+
 # Тестовые задания
 
 Доброго времени суток, будущий стажер!  
