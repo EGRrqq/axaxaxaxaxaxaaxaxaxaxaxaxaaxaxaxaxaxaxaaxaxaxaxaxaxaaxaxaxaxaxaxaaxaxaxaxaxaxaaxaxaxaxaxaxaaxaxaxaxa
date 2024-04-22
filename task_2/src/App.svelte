@@ -1,12 +1,18 @@
 <script lang="ts">
   import { onMount } from "svelte";
+
+  import CurrencySelector from "./lib/CurrencySelector.svelte";
+  import CurrencyAmount from "./lib/CurrencyAmount.svelte";
+
   import type { ICurrency } from "./types/ICurrency";
 
   let rates: ICurrency["rates"] = {};
-  let fromCur = "USD";
-  let toCur = "EUR";
-  let fromAmount = 0;
-  let toAmount = 0;
+
+  let baseCur = "USD";
+  let convertedCur = "EUR";
+
+  let baseAmount = 0;
+  let convertedAmount = 0;
 
   async function fetchRates(rate: string): Promise<ICurrency> {
     const res = await fetch(`https://open.er-api.com/v6/latest/${rate}`);
@@ -18,73 +24,48 @@
     return (amount / rates[from]) * rates[to];
   }
 
-  const handleInput = (e: InputEvent, from: boolean) => {
+  function handleInput(
+    e: Event & { currentTarget: EventTarget & HTMLInputElement },
+    from: boolean
+  ) {
     if (from) {
-      fromAmount = parseFloat((e.target as HTMLInputElement).value);
-      toAmount = convert(fromAmount, fromCur, toCur);
-    } else {
-      toAmount = parseFloat((e.target as HTMLInputElement).value);
-      fromAmount = convert(toAmount, toCur, fromCur);
+      baseAmount = parseFloat((e.target as HTMLInputElement).value);
+      convertedAmount = convert(baseAmount, baseCur, convertedCur);
+      return;
     }
-  };
+
+    convertedAmount = parseFloat((e.target as HTMLInputElement).value);
+    baseAmount = convert(convertedAmount, convertedCur, baseCur);
+  }
 
   onMount(() => {
-    fetchRates(fromCur).then((d) => {
-      rates = d.rates;
-    });
+    fetchRates(baseCur).then((d) => (rates = d.rates));
   });
 </script>
 
 <main>
-  <!-- Currency component -->
   <article>
     <section>
       <div>
-        <input
-          type="text"
-          list="currency"
-          autocomplete="off"
-          bind:value={fromCur}
-        />
-        <datalist id="currency">
-          {#each Object.keys(rates) as currency (currency)}
-            <option value={currency}>{currency}</option>
-          {/each}
-        </datalist>
+        <CurrencySelector {rates} bind:selectedRate={baseCur} />
       </div>
 
-      <input
-        type="number"
-        bind:value={fromAmount}
-        on:input={(e) => handleInput(e, true)}
+      <CurrencyAmount
+        bind:amount={baseAmount}
+        onInput={(e) => handleInput(e, true)}
       />
     </section>
-    <section></section>
-  </article>
-  <!-- Currency component -->
-  <article>
+
     <section>
       <div>
-        <input
-          type="text"
-          list="currency"
-          autocomplete="off"
-          bind:value={toCur}
-        />
-        <datalist id="currency">
-          {#each Object.keys(rates) as currency (currency)}
-            <option value={currency}>{currency}</option>
-          {/each}
-        </datalist>
+        <CurrencySelector {rates} bind:selectedRate={convertedCur} />
       </div>
 
-      <input
-        type="number"
-        bind:value={toAmount}
-        on:input={(e) => handleInput(e, false)}
+      <CurrencyAmount
+        bind:amount={convertedAmount}
+        onInput={(e) => handleInput(e, false)}
       />
     </section>
-    <section></section>
   </article>
 </main>
 
@@ -94,11 +75,10 @@
 
 <style>
   article {
-    border: solid;
-    padding: 1rem;
-  }
-
-  main {
     display: flex;
+    gap: 1rem;
+    padding: 1rem;
+
+    border: solid;
   }
 </style>
