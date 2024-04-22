@@ -38,6 +38,24 @@
     baseAmount = convert(convertedAmount, convertedCur, baseCur);
   }
 
+  function handleChange(
+    e: Event & { currentTarget: EventTarget & HTMLInputElement },
+    from: boolean
+  ) {
+    if (!Object.keys(rates).includes((e.target as HTMLInputElement).value))
+      return;
+
+    if (from) {
+      baseCur = (e.target as HTMLInputElement).value;
+      convertedAmount = convert(baseAmount, baseCur, convertedCur);
+
+      return;
+    }
+
+    convertedCur = (e.target as HTMLInputElement).value;
+    baseAmount = convert(convertedAmount, convertedCur, baseCur);
+  }
+
   onMount(() => {
     fetchRates(baseCur).then((d) => (rates = d.rates));
   });
@@ -47,7 +65,11 @@
   <article>
     <section>
       <div>
-        <CurrencySelector {rates} bind:selectedRate={baseCur} />
+        <CurrencySelector
+          {rates}
+          onChange={(e) => handleChange(e, true)}
+          bind:selectedRate={baseCur}
+        />
       </div>
 
       <CurrencyAmount
@@ -58,7 +80,11 @@
 
     <section>
       <div>
-        <CurrencySelector {rates} bind:selectedRate={convertedCur} />
+        <CurrencySelector
+          onChange={(e) => handleChange(e, false)}
+          {rates}
+          bind:selectedRate={convertedCur}
+        />
       </div>
 
       <CurrencyAmount

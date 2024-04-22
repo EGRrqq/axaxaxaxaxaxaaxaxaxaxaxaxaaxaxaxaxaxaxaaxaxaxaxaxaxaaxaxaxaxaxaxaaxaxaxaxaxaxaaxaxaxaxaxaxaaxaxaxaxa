@@ -3,6 +3,9 @@
 
   export let rates: ICurrency["rates"] = {};
   export let selectedRate: string = "USD";
+  export let onChange: (
+    e: Event & { currentTarget: EventTarget & HTMLInputElement }
+  ) => void;
 </script>
 
 <div>
@@ -10,6 +13,7 @@
     type="text"
     list="currency"
     autocomplete="off"
+    on:change={onChange}
     bind:value={selectedRate}
   />
   <datalist id="currency">
