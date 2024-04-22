@@ -8,17 +8,21 @@
   ) => void;
 </script>
 
-<div>
-  <input
-    type="text"
-    list="currency"
-    autocomplete="off"
-    on:change={onChange}
-    bind:value={selectedRate}
-  />
-  <datalist id="currency">
-    {#each Object.keys(rates) as currency}
-      <option value={currency}>{currency}</option>
-    {/each}
-  </datalist>
-</div>
+<input
+  type="text"
+  list="currency"
+  autocomplete="off"
+  on:change={onChange}
+  bind:value={selectedRate}
+/>
+<datalist id="currency">
+  {#each Object.keys(rates) as currency}
+    <option value={currency}>{currency}</option>
+  {/each}
+</datalist>
+
+<style>
+  input {
+    width: 100%;
+  }
+</style>

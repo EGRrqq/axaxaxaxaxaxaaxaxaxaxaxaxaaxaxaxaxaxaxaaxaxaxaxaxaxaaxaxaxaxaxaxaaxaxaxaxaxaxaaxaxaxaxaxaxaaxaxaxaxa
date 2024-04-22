@@ -62,9 +62,9 @@
 </script>
 
 <main>
-  <article>
+  <article class="converter-wrapper">
     <section>
-      <div>
+      <div class="selector-wrapper">
         <CurrencySelector
           {rates}
           onChange={(e) => handleChange(e, true)}
@@ -79,7 +79,7 @@
     </section>
 
     <section>
-      <div>
+      <div class="selector-wrapper">
         <CurrencySelector
           onChange={(e) => handleChange(e, false)}
           {rates}
@@ -100,11 +100,33 @@
 </footer>
 
 <style>
-  article {
+  :root {
+    --currency-gap: 1rem;
+  }
+
+  main {
     display: flex;
-    gap: 1rem;
-    padding: 1rem;
+  }
+
+  .converter-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--currency-gap);
+    padding: var(--currency-gap);
+  }
+
+  .converter-wrapper > section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--currency-gap);
+    padding: var(--currency-gap);
 
     border: solid;
+  }
+
+  .selector-wrapper {
+    display: flex;
   }
 </style>

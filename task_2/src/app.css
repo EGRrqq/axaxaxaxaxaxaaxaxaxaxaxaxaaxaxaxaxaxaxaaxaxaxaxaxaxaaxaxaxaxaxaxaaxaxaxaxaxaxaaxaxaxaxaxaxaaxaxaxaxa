@@ -12,6 +12,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --main-font-size: calc(0.75rem + max(1vw, 1vh));
+}
+
+*,
+*::before,
+*::after {
+  font-size: var(--main-font-size);
 }
 
 a {
