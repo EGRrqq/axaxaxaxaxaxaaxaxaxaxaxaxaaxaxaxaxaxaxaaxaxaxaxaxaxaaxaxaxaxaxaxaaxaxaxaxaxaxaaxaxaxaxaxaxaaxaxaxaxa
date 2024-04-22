@@ -1,3 +1,9 @@
+# Notes
+<br/>
+<p align="center">
+  <a align="center" target="_blank" href="https://egrrqq.github.io/axaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxa/"><strong>Live Solution</strong></a>
+</p>
+
 # Задание 2
 
 Необходимо разработать одностраничный сервис для конвертации валют. Для получения актуальной информации нужно воспользоваться открытым API, [_например этим_](https://www.exchangerate-api.com/docs/free). 
