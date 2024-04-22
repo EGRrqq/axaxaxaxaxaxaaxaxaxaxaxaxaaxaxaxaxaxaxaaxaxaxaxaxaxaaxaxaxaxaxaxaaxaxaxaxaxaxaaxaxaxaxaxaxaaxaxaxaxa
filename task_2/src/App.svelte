@@ -28,10 +28,6 @@
     }
   };
 
-  $: if (fromCur && toCur && rates[fromCur] && rates[toCur]) {
-    toAmount = (fromAmount / rates[fromCur]) * rates[toCur];
-  }
-
   onMount(() => {
     fetchRates(fromCur).then((d) => {
       rates = d.rates;
