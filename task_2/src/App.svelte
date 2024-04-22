@@ -3,15 +3,40 @@
   import type { ICurrency } from "./types/ICurrency";
 
   let rates: ICurrency["rates"] = {};
+  let fromCur = "USD";
+  let toCur = "EUR";
+  let fromAmount = 0;
+  let toAmount = 0;
 
-  async function fetchRates() {
-    const res = await fetch("https://open.er-api.com/v6/latest/USD");
+  async function fetchRates(rate: string): Promise<ICurrency> {
+    const res = await fetch(`https://open.er-api.com/v6/latest/${rate}`);
     const data: ICurrency = await res.json();
-    rates = data.rates;
+    return data;
   }
 
-  onMount(fetchRates);
-  console.log(rates);
+  function convert(amount: number, from: string, to: string) {
+    return (amount / rates[from]) * rates[to];
+  }
+
+  const handleInput = (e: InputEvent, from: boolean) => {
+    if (from) {
+      fromAmount = parseFloat((e.target as HTMLInputElement).value);
+      toAmount = convert(fromAmount, fromCur, toCur);
+    } else {
+      toAmount = parseFloat((e.target as HTMLInputElement).value);
+      fromAmount = convert(toAmount, toCur, fromCur);
+    }
+  };
+
+  $: if (fromCur && toCur && rates[fromCur] && rates[toCur]) {
+    toAmount = (fromAmount / rates[fromCur]) * rates[toCur];
+  }
+
+  onMount(() => {
+    fetchRates(fromCur).then((d) => {
+      rates = d.rates;
+    });
+  });
 </script>
 
 <main>
@@ -19,7 +44,12 @@
   <article>
     <section>
       <div>
-        <input type="text" list="currency" autocomplete="off" />
+        <input
+          type="text"
+          list="currency"
+          autocomplete="off"
+          bind:value={fromCur}
+        />
         <datalist id="currency">
           {#each Object.keys(rates) as currency (currency)}
             <option value={currency}>{currency}</option>
@@ -27,11 +57,39 @@
         </datalist>
       </div>
 
-      <input type="number" value="0" />
+      <input
+        type="number"
+        bind:value={fromAmount}
+        on:input={(e) => handleInput(e, true)}
+      />
     </section>
     <section></section>
   </article>
   <!-- Currency component -->
+  <article>
+    <section>
+      <div>
+        <input
+          type="text"
+          list="currency"
+          autocomplete="off"
+          bind:value={toCur}
+        />
+        <datalist id="currency">
+          {#each Object.keys(rates) as currency (currency)}
+            <option value={currency}>{currency}</option>
+          {/each}
+        </datalist>
+      </div>
+
+      <input
+        type="number"
+        bind:value={toAmount}
+        on:input={(e) => handleInput(e, false)}
+      />
+    </section>
+    <section></section>
+  </article>
 </main>
 
 <footer>
