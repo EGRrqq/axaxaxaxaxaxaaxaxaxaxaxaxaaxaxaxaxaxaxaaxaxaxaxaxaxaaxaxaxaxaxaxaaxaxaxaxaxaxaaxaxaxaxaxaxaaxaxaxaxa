@@ -9,5 +9,5 @@ export default defineConfig({
     outDir: "../dist",
     assetsDir: "",
   },
-  base: "/converter/",
+  base: "/axaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxaxaxaaxaxaxaxa/",
 });
